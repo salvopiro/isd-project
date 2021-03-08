@@ -23,7 +23,7 @@ public aspect MethodAspect {
 		methodSignature = methodSignature.replaceAll("[^\\w]", "_");
 		String[] parameter = methodSignature.split("_");
 		String pathFile = Paths.get(
-				"C:\\Users\\salvo\\eclipse-workspace\\AspProjectIS\\src\\dataForMethod\\" + methodSignature + ".csv")
+				".\\src\\dataForMethod\\" + methodSignature + ".csv")
 				.toString();
 
 		try {
@@ -34,6 +34,7 @@ public aspect MethodAspect {
 				for (int i = 2; i < parameter.length; i++) {
 					myWriter.append(parameter[i] + (i < parameter.length - 1 ? "," : "\n"));
 
+					//second commit 
 				}
 				myWriter.flush();
 				myWriter.close();
