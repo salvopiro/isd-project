@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 
 public aspect MethodAspect {
 	pointcut p1() : 
-		execution (* *.*(..)) && !within(MethodAspect);
+		execution (* *.*(..)) && !within(MethodAspect) && !within(ExtractParameterForTest) && !within(MaxMinTest);
 
 	before() : p1() {
 		Object[] args = thisJoinPoint.getArgs();
@@ -18,14 +18,9 @@ public aspect MethodAspect {
 	}
 
 	private String createFile(String signature) {
-		String methodSignature = signature.replaceAll("\\s+", "");
-
-		methodSignature = methodSignature.replaceAll("[^\\w]", "_");
+		String methodSignature = extractMethodSignature(signature);
+		String pathFile = extractPathFile(methodSignature);
 		String[] parameter = methodSignature.split("_");
-		String pathFile = Paths.get(
-				".\\src\\dataForMethod\\" + methodSignature + ".csv")
-				.toString();
-
 		try {
 			File myFile = new File(pathFile);
 			if (myFile.createNewFile()) {
@@ -34,7 +29,6 @@ public aspect MethodAspect {
 				for (int i = 2; i < parameter.length; i++) {
 					myWriter.append(parameter[i] + (i < parameter.length - 1 ? "," : "\n"));
 
-					//second commit 
 				}
 				myWriter.flush();
 				myWriter.close();
@@ -44,6 +38,16 @@ public aspect MethodAspect {
 			e.printStackTrace();
 		}
 		return pathFile;
+	}
+
+	private String extractPathFile(String methodSignature) {
+		return Paths.get(".\\src\\dataForMethod\\" + methodSignature + ".csv").toString();
+	}
+
+	String extractMethodSignature(String signature) {
+		String methodSignature = signature.replaceAll("\\s+", "");
+		methodSignature = methodSignature.replaceAll("[^\\w]", "_");
+		return methodSignature;
 	}
 
 	private void insertDataInCsv(String pathFile, Object[] args) {
