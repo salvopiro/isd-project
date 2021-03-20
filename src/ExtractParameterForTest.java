@@ -24,7 +24,7 @@ public class ExtractParameterForTest {
 
 	public HashMap<String, MaxMinTest[]> extractParameterForTest(String pathFolder) {
 		List<String> fileInFolder = listFile(pathFolder);
-		System.out.println(fileInFolder.size());
+		//System.out.println(fileInFolder.size());
 
 		HashMap<String, MaxMinTest[]> map = new HashMap<>();
 		try {

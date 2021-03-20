@@ -34,17 +34,18 @@ public class MyClass {
 				.extractParameterForTest(Paths.get(".\\src\\dataForMethod\\").toString());
 		List<String> keyValues = new ArrayList<String>(map.keySet());
 
-		HashMap<String, int[]> valuesBetweenMaxMinMap = new HashMap<String, int[]>();
+		HashMap<String, int[][]> valuesBetweenMaxMinMap = new HashMap<String, int[][]>();
 
 		for (int i = 0; i < keyValues.size(); i++) {
 			MaxMinTest[] mm = (map.get(keyValues.get(i)));
-			System.out.println("\n" + keyValues.get(i));
+			int[][] matrix = new int[mm.length][50];
+			// System.out.println("\n" + keyValues.get(i));
 			for (int j = 0; j < mm.length; j++) {
+				matrix[j] = extract.generateRandomValuesBetween(mm[j].getMin(), mm[j].getMax(), 50);
 				System.out.print(mm[j] + ", ");
-				valuesBetweenMaxMinMap.put(keyValues.get(i),
-						extract.generateRandomValuesBetween(mm[j].getMin(), mm[j].getMax(), 50));
 			}
-
+			valuesBetweenMaxMinMap.put(keyValues.get(i), matrix);
 		}
+		
 	}
 }
